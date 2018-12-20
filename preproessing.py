@@ -56,7 +56,7 @@ def sampledata(filepath,mypercent):
 
     user_id = pd.factorize(df.steam_id)
     item_index = pd.factorize(df.item_id)
-    steamid2userid = dict(zip(user_id[0],df.steam_id)) 
+    steamid2userid = dict(zip(user_id[0],df.steam_id))
     itemid2itemindex = dict(zip(item_index[0],df.item_id))
 
     df['user_id'] = user_id[0]
