@@ -7,6 +7,8 @@ from pyspark.ml.recommendation import ALS
 from pyspark.sql import Row
 import numpy as np
 
+from game import Game
+
 if __name__ == '__main__':
     spark = SparkSession \
         .builder \
@@ -40,11 +42,17 @@ if __name__ == '__main__':
 
     userRecs = model.recommendForAllUsers(10)  # top_N recommendation
 
-    user85Recs = userRecs.filter(userRecs['user_id'] == 85).collect()
+    user85Recs = userRecs.filter(userRecs['user_id'] == 11 ).collect()
 
     spark.stop()
 
+    game = Game()
+    game.loadItemName()
+    game.loadItemIndex()
+    game.loadgenre()
 
     for row in user85Recs:
         for rec in row.recommendations:
-            print(rec.item_index)
+            item_index = rec.item_index
+            name, genre = game.getNameandGenre(item_index)
+            print('\t'.join([str(item_index),name,genre]))

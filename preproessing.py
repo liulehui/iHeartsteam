@@ -56,7 +56,7 @@ def sampledata(filepath,mypercent):
 
     user_id = pd.factorize(df.steam_id)
     item_index = pd.factorize(df.item_id)
-    steamid2userid = dict(zip(user_id[0],df.steam_id))
+    steamid2userid = dict(zip(user_id[0],df.steam_id)) 
     itemid2itemindex = dict(zip(item_index[0],df.item_id))
 
     df['user_id'] = user_id[0]
@@ -67,12 +67,12 @@ def sampledata(filepath,mypercent):
 
 
 
-    return df,steamid2userid,itemid2itemindex,itemID_to_name
+    return df,steamid2userid,itemid2itemindex
 
 
 if __name__ == '__main__':
     filepath = '../australian_users_items.json'
-    percent = 0.3
+    percent = 1
     dataset, steamid2userid, itemid2itemindex= sampledata(filepath,percent)
 
     playdata = dataset[['user_id','item_index','playtime_forever']]
@@ -81,17 +81,16 @@ if __name__ == '__main__':
     print(playdata.shape)
 
 
-    with open('../steamid2userid.csv', 'w') as f:
+    with open('../steamid2userid_full.csv', 'w') as f:
         for key in steamid2userid.keys():
             f.write("%s,%s\n" % (key, steamid2userid[key]))
-    with open('../itemid2itemindex.csv', 'w') as f:
+    with open('../itemid2itemindex_full.csv', 'w') as f:
         for key in itemid2itemindex.keys():
             f.write("%s,%s\n" % (key, itemid2itemindex[key]))
 
-    with open('../itemID')
 
 
-    playdata.to_csv('../users_items_30percent.csv',index=False)
+    playdata.to_csv('../users_items_full.csv',index=False)
 
 
 
