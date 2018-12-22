@@ -16,7 +16,7 @@ if __name__ == '__main__':
         .config("spark.executor.cores", '4') \
         .getOrCreate()
 
-    lines = spark.read.option("header", "true").csv("../users_items_30percent.csv").rdd
+    lines = spark.read.option("header", "true").csv("../users_items_100.csv").rdd
     # this read do not read any data in, just create a placeholder
     # and told the RDD where it will read the data from
 
@@ -42,7 +42,10 @@ if __name__ == '__main__':
 
     userRecs = model.recommendForAllUsers(10)  # top_N recommendation
 
+    print(type(userRecs))
     user85Recs = userRecs.filter(userRecs['user_id'] == 11 ).collect()
+
+    print(user85Recs)
 
     spark.stop()
 

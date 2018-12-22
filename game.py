@@ -17,7 +17,7 @@ class Game:
     itemindex_to_itemId = {}
     itemID_to_genre = {}
 
-    itemIndexPath = '../itemid2itemindex.csv'
+    itemIndexPath = '../itemid2itemindex_100.csv'
     genrePath = '../bundle_data.json'
     itemNamePath = '../australian_users_items.json'
 

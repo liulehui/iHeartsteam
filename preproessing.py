@@ -14,9 +14,9 @@ def parse(path):
         yield eval(l)
 
 def sampledata(filepath,mypercent):
-    itemID_to_name = {}
-    name_to_itemID = {}
+
     data = []
+    steamID_to_userID = {}
 
 
     counter = 0
@@ -28,16 +28,15 @@ def sampledata(filepath,mypercent):
         if counter % 5000 == 0:
             print(counter) # number of rows i.e. number of users in the dataset
 
+        # generate mapping between steam_id and user_id in the original data json file
+        if load['steam_id'] not in steamID_to_userID:
+            steamID_to_userID[load['steam_id']] = load['user_id']
+
         data_i = []  # all the games user i played
 
         for j in range(load['items_count']):
 
             observation = [load['steam_id'],load['items'][j]['item_id'],round(load['items'][j]['playtime_forever']/60,2),round(load['items'][j]['playtime_2weeks']/60,2),1]
-            if load['items'][j]['item_id'] not in itemID_to_name:
-                itemID_to_name[load['items'][j]['item_id']] = load['items'][j]['item_name']
-                name_to_itemID[load['items'][j]['item_name']] = load['items'][j]['item_id']
-            # print(observation)
-
 
             data_i.append(observation)
 
@@ -67,30 +66,33 @@ def sampledata(filepath,mypercent):
 
 
 
-    return df,steamid2userid,itemid2itemindex
+    return df,steamid2userid,itemid2itemindex,steamID_to_userID
 
 
 if __name__ == '__main__':
     filepath = '../australian_users_items.json'
     percent = 1
-    dataset, steamid2userid, itemid2itemindex= sampledata(filepath,percent)
+    dataset, steamid2userid, itemid2itemindex,steamID2userID= sampledata(filepath,percent)
 
     playdata = dataset[['user_id','item_index','playtime_forever']]
     print(playdata.shape)
-    playdata = playdata[playdata['playtime_forever'] > 0]
-    print(playdata.shape)
+    # playdata = playdata[playdata['playtime_forever'] > 0]
+    # print(playdata.shape)
 
 
-    with open('../steamid2userid_full.csv', 'w') as f:
+    with open('../steamid2userid_100_LSH.csv', 'w') as f:
         for key in steamid2userid.keys():
             f.write("%s,%s\n" % (key, steamid2userid[key]))
-    with open('../itemid2itemindex_full.csv', 'w') as f:
+    with open('../itemid2itemindex_100_LSH.csv', 'w') as f:
         for key in itemid2itemindex.keys():
             f.write("%s,%s\n" % (key, itemid2itemindex[key]))
+    with open('../steamID2userID_full_LSH.csv', 'w') as f:
+        for key in steamID2userID.keys():
+            f.write("%s,%s\n" % (key, steamID2userID[key]))
 
 
 
-    playdata.to_csv('../users_items_full.csv',index=False)
+    playdata.to_csv('../users_items_100_LSH.csv',index=False)
 
 
 
