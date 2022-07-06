@@ -55,7 +55,7 @@ greenlet==0.4.12
 grpcio==1.11.0
 h5py==2.7.1
 heapdict==1.0.0
-html5lib==0.9999999
+html5lib==0.999999999
 idna==2.6
 ijson==2.3
 imageio==2.2.0
