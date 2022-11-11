@@ -140,7 +140,7 @@ pyodbc==4.0.22
 pyOpenSSL==17.5.0
 pyparsing==2.2.0
 PySocks==1.6.7
-pyspark==2.3.2
+pyspark==3.2.2
 pytest==3.3.2
 python-dateutil==2.6.1
 pytz==2017.3
